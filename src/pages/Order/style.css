@@ -1,0 +1,43 @@
+:root {
+    --red: #c93538;
+    --orange: #f79332;
+}
+
+body {
+    height: 100vh;
+}
+header {
+    background-color: var(--orange);
+    padding: 0 1.3rem;
+    width: 100%;
+    height: 70px;
+    color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header button {
+    background-color: transparent;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+header button img{
+    height: 2rem;
+}
+
+.container {
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.form-table {
+    width: 400px;
+    border-radius: 0.5rem;
+    box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+}

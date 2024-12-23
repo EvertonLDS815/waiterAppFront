@@ -8,9 +8,8 @@ body {
 }
 header {
     background-color: var(--orange);
-    padding: 0 1.3rem;
+    padding: 1rem;
     width: 100%;
-    height: 70px;
     color: black;
     display: flex;
     justify-content: space-between;
@@ -29,15 +28,40 @@ header button img{
     height: 2rem;
 }
 
-.container {
+.container-form-table {
     height: 70vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 1rem;
 }
 .form-table {
     width: 400px;
     border-radius: 0.5rem;
     box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.3);
     padding: 1rem;
+}
+
+.form-table input {
+    width: 70%;
+    padding: 0.3rem 0.6rem;
+    font-size: 1rem;
+    margin-top: 0.7rem;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+}
+
+.form-table button {
+    float: right;
+    padding: 0.4rem 0.6rem;
+    margin-top: 0.7rem;
+    font-size: 1rem;
+    background-color: #219421;
+    color: white;
+}
+
+@media (max-width: 430px) {
+    header h2{
+        font-size: 1.3rem;
+    }
 }

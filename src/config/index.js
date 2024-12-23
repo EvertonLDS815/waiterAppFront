@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 // Cria a instância do axios com a baseURL
 const token = localStorage.getItem('waiter');
@@ -29,7 +30,8 @@ api.interceptors.response.use(
       // Remove o token inválido do localStorage
       localStorage.removeItem('waiter');
       // Redireciona o usuário para a página de login
-      window.location.href = '/login';
+      const navigate = useNavigate();
+      navigate('/login');
     }
     return Promise.reject(error);
   }

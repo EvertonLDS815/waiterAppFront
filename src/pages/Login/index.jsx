@@ -1,7 +1,9 @@
 // Login.js
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './style.css';
 import api from '../../config';
+import Input from '../../components/Input';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -13,34 +15,24 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await api.post('/login', { email, password });
+      
       console.log(response.data);
       localStorage.setItem('waiter', response.data.token);
-      navigate('/order');
+      return navigate('/order');
     } catch (err) {
-      setError('Invalid email or password');
+      console.error(err)
+      return setError('Email e/ou senha inválidos!');
     }
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Login</button>
+    <div className='container-login'>
+      <form onSubmit={handleSubmit} className='login-form'>
+        <h1>Login</h1>
+        <Input type="email" placeholder="Email" valueProps={email} setState={setEmail}/>
+        <Input type="password" placeholder="Senha" valueProps={password} setState={setPassword} />
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <button type="submit">Entrar</button>
       </form>
     </div>
   );

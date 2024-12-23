@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../config';
-import Header from '../../components/Header'
-import './style.css'
+import Header from '../../components/Header';
+import './styles.css';
 import { Navigate } from 'react-router-dom';
+import Input from '../../components/Input';
 
 const Products = () => {
   const [user, setUser] = useState({});
@@ -24,7 +25,6 @@ const Products = () => {
 
     const fetchUser = async () => {
       const { data } = await api.get('/user');
-      console.log(data)
       setUser(data);
     };
     fetchUser();
@@ -124,6 +124,7 @@ const Products = () => {
     setOrderItem([]); // Limpa o estado de orderItem
     setTableExists(false);
     setTableNumber(null);
+    setTableName('');
   };
 
   const handleLogout = async () => {
@@ -139,16 +140,16 @@ const Products = () => {
     <div>
       <Header user={user} onLogout={handleLogout}/>
       {!tableExists ? (
-        <div className='container'>
+        <div className='container-form-table'>
           <form onSubmit={handleTableSubmit} className='form-table'>
             <h2>Informar a mesa</h2>
-            <input
+            <Input
               id="tableName"
               name="tableName"
               type="text"
               placeholder="Número da mesa"
-              value={tableName}
-              onChange={(e) => setTableName(e.target.value)}
+              valueProps={tableName}
+              setState={setTableName}
               required
             />
             <button type="submit">Salvar</button>
@@ -156,16 +157,16 @@ const Products = () => {
         </div>
       ) : (
         <>
-          <div>
+          <div className='container-table'>
             <h2>
               Table Number: {tableNumber}{' '}
               <button onClick={handleClearTable} style={{ marginLeft: '10px', color: 'red' }}>
-                Clear Table
+                remover
               </button>
             </h2>
           </div>
           <div>
-            <h1>Create Order</h1>
+            <h1>Crie seu pedido</h1>
             <ul>
               {products.map((product) => (
                 <li key={product._id} className='list-item-products'>

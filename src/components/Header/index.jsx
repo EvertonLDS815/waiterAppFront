@@ -1,11 +1,11 @@
 
 import logOut from '../../assets/log-out.svg';
 
-const Header = ({user}) => {
+const Header = ({user, onLogout}) => {
     return (
         <header>
             <h2>{user.role} - {user.email}</h2>
-            <button>
+            <button onClick={onLogout}>
               <img src={logOut} />
             </button>
           </header>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../../config';
 import Header from '../../components/Header'
 import './style.css'
+import { Navigate } from 'react-router-dom';
 
 const Products = () => {
   const [user, setUser] = useState({});
@@ -12,6 +13,7 @@ const Products = () => {
   const [error, setError] = useState('');
   const [selectedItems, setSelectedItems] = useState([]);
   const [orderItem, setOrderItem] = useState([]); // Inicializado como array vazio
+  const [loggedOut, setLoggedOut] = useState(false);
 
   useEffect(() => {
     const tableId = localStorage.getItem('tableId');
@@ -22,6 +24,7 @@ const Products = () => {
 
     const fetchUser = async () => {
       const { data } = await api.get('/user');
+      console.log(data)
       setUser(data);
     };
     fetchUser();
@@ -123,9 +126,18 @@ const Products = () => {
     setTableNumber(null);
   };
 
+  const handleLogout = async () => {
+    localStorage.removeItem('waiter');
+    setLoggedOut(true); // Marca o estado como desconectado
+  };
+
+  if (loggedOut) {
+    return <Navigate to="/login" replace />;
+  }
+
   return (
     <div>
-      <Header user={user}/>
+      <Header user={user} onLogout={handleLogout}/>
       {!tableExists ? (
         <div className='container'>
           <form onSubmit={handleTableSubmit} className='form-table'>

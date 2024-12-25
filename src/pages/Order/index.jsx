@@ -4,6 +4,10 @@ import Header from '../../components/Header';
 import './styles.css';
 import { Navigate } from 'react-router-dom';
 import Input from '../../components/Input';
+import CartIcon from '../../assets/cart.svg';
+import Trash from '../../assets/trash.svg';
+import FormatCurrency from '../../utils/FormatCurrency';
+import Cart from '../../components/Cart';
 
 const Products = () => {
   const [user, setUser] = useState({});
@@ -15,7 +19,9 @@ const Products = () => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [orderItem, setOrderItem] = useState([]); // Inicializado como array vazio
   const [loggedOut, setLoggedOut] = useState(false);
+  const [quantityInicial, setQuantityInicial] = useState(1);
 
+  useEffect(() => console.log(orderItem), [orderItem])
   useEffect(() => {
     const tableId = localStorage.getItem('tableId');
     if (tableId) {
@@ -71,7 +77,7 @@ const Products = () => {
     }
   };
 
-  const handleAddItem = (productId, quantity) => {
+  const handleAddItem = (productId, quantity, image) => {
     setSelectedItems((prevItems) => {
       const existingItem = prevItems.find((item) => item.productId === productId);
   
@@ -81,9 +87,8 @@ const Products = () => {
               ? { ...item, quantity: item.quantity + quantity }
               : item
           )
-        : [...prevItems, { productId, quantity }];
+        : [...prevItems, { productId, quantity, image}];
   
-      console.log("Updated Items:", updatedItems); // Verifica os itens atualizados
       setOrderItem(updatedItems); // Atualiza o estado de orderItem
       return updatedItems;
     });
@@ -138,10 +143,10 @@ const Products = () => {
 
   return (
     <div>
-      <Header user={user} onLogout={handleLogout}/>
+      <Header user={user} onLogout={handleLogout} />
       {!tableExists ? (
-        <div className='container-form-table'>
-          <form onSubmit={handleTableSubmit} className='form-table'>
+        <div className="container-form-table">
+          <form onSubmit={handleTableSubmit} className="form-table">
             <h2>Informar a mesa</h2>
             <Input
               id="tableName"
@@ -156,32 +161,55 @@ const Products = () => {
           </form>
         </div>
       ) : (
-        <>
-          <div className='container-table'>
-            <h2>
-              Table Number: {tableNumber}{' '}
-              <button onClick={handleClearTable} style={{ marginLeft: '10px', color: 'red' }}>
-                remover
-              </button>
-            </h2>
+        <div>
+          <div className="container-table">
+            <h2>Número da mesa: {tableNumber}</h2>
+            <button
+              onClick={handleClearTable}
+              style={{ marginLeft: "10px", color: "red" }}
+            >
+              <img title="Deletar Pedido" src={Trash} />
+            </button>
           </div>
-          <div>
-            <h1>Crie seu pedido</h1>
-            <ul>
-              {products.map((product) => (
-                <li key={product._id} className='list-item-products'>
-                  {product.name}
-                  <img src={`http://localhost:3000${product.imageURL}`} />
-                  <button onClick={() => handleAddItem(product._id, 1)}>Add</button>
-                </li>
-              ))}
-            </ul>
-            <button onClick={handleSubmitOrder}>Submit Order</button>
-          </div>
-        </>
+          {orderItem.length > 0 &&
+            orderItem.map((item) => (
+              <Cart
+                key={item.productId}
+                image={item.image}
+                inquantity={item.quantity}
+              />
+            ))}
+          <ul className="list">
+            {products.map((product) => (
+              <li key={product._id} className="list-item-products">
+                <h3>{product.name}</h3>
+                <img
+                  className="image-product"
+                  src={`http://localhost:3000${product.imageURL}`}
+                />
+                <div className="contents">
+                  <h4>{FormatCurrency(product.price)}</h4>
+                  <button
+                    onClick={() =>
+                      handleAddItem(
+                        product._id,
+                        quantityInicial,
+                        `http://localhost:3000${product.imageURL}`
+                      )
+                    }
+                  >
+                    <img src={CartIcon} />
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <button onClick={handleSubmitOrder}>Submit Order</button>
+        </div>
       )}
     </div>
   );
-};
+}  
+
 
 export default Products;

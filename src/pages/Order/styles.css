@@ -27,7 +27,24 @@ header button {
 header button img{
     height: 2rem;
 }
-
+.container-table {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 3rem;
+    font-weight: 500;;
+    margin: 0.8rem 0.5rem;
+}
+.container-table button {
+    margin-left: 10px;
+    color: white;
+    background-color: white;
+    border: 2px solid red;
+    padding: 0.3rem 0.6rem;
+}
+.container-table button:hover {
+    opacity: 0.6;
+}
 .container-form-table {
     height: 70vh;
     display: flex;
@@ -60,8 +77,53 @@ header button img{
     color: white;
 }
 
+.list {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    list-style-type: none;
+    margin-top: 1rem;
+}
+
+.list-item-products {
+    border: 1px solid #eee;
+    padding: 0.5rem;
+}
+
+.image-product {
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+.contents {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contents button {
+    display: flex;
+    color: white;
+    background-color: #219421;
+    padding: 5px 6px;
+    border-radius: 5px;
+}
+
+.list-item-products button svg {
+    background-color: white;
+}
+.list > button {
+    background-color: #29a3dc;
+    color: white;
+}
+
+@media (max-width: 900px) {
+    .list {
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    }
+}
+
 @media (max-width: 430px) {
-    header h2{
-        font-size: 1.3rem;
+    .container-table {
+        gap: 1rem;
     }
 }

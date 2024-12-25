@@ -32,14 +32,10 @@ button {
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
-  font-family: inherit;
   cursor: pointer;
   transition: border-color 0.25s;
 }
 
-.list-item-products img {
-  width: 100px;
-}
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

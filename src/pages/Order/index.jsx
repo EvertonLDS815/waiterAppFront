@@ -19,9 +19,7 @@ const Products = () => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [orderItem, setOrderItem] = useState([]); // Inicializado como array vazio
   const [loggedOut, setLoggedOut] = useState(false);
-  const [quantityInicial, setQuantityInicial] = useState(1);
 
-  // useEffect(() => console.log(orderItem), [orderItem])
   useEffect(() => {
     const tableId = localStorage.getItem('tableId');
     if (tableId) {
@@ -78,18 +76,24 @@ const Products = () => {
   };
 
   const handleAddItem = (product, quantity) => {
-    setSelectedItems((prevItems) => {
+    setOrderItem((prevItems) => {
       const existingItem = prevItems.find((item) => item.product._id === product._id);
-  
+
       const updatedItems = existingItem
         ? prevItems.map((item) =>
             item.product._id === product._id
               ? { ...item, quantity: item.quantity + quantity }
               : item
           )
-        : [...prevItems, { product, quantity }]; // Adiciona um ID único
-  
-      setOrderItem(updatedItems);
+        : [...prevItems, { product, quantity }];
+
+      return updatedItems;
+    });
+  };
+
+  const handleRemoveItem = (productId) => {
+    setOrderItem((prevItems) => {
+      const updatedItems = prevItems.filter((item) => item.product._id !== productId);
       return updatedItems;
     });
   };
@@ -109,12 +113,11 @@ const Products = () => {
     const orderData = {
       tableId,
       userId: user._id,
-      items: selectedItems,
+      items: orderItem,
     };
 
     try {
       await api.post('/order', orderData);
-      setSelectedItems([]); // Reseta selectedItems
       setOrderItem([]); // Reseta orderItem
     } catch (err) {
       console.error('Failed to create order', err);
@@ -125,7 +128,6 @@ const Products = () => {
     const tableId = localStorage.getItem('tableId');
     await api.delete(`/table/${tableId}`);
     localStorage.removeItem('tableId');
-    setSelectedItems([]); // Limpa os itens selecionados
     setOrderItem([]); // Limpa o estado de orderItem
     setTableExists(false);
     setTableNumber(null);
@@ -142,7 +144,7 @@ const Products = () => {
   }
 
   const calculateTotal = () => {
-    return selectedItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
+    return orderItem.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
   };
 
   return (
@@ -189,7 +191,7 @@ const Products = () => {
                     <h4>{FormatCurrency(product.price)}</h4>
                     <button
                       onClick={() =>
-                        handleAddItem(product, quantityInicial)
+                        handleAddItem(product, 1) // Adiciona a quantidade do produto
                       }
                     >
                       <img src={CartIcon} />
@@ -200,25 +202,21 @@ const Products = () => {
             </ul>
             {orderItem.length > 0 &&
               orderItem.map((item) => (
-                <Cart
-                  key={item.product._id}
-                  productItem={item.product}
-                  inquantity={item.quantity}
-                />
+                  <Cart
+                    key={item.product._id}
+                    productItem={item.product}
+                    inquantity={item.quantity}
+                    onRemoveItem={handleRemoveItem}
+                  />
               ))}
-              {/* Div para exibir o total */}
-              {orderItem.length > 0 && 
-                <div className="total">
-                  <h3>Total: {FormatCurrency(calculateTotal())}</h3>
-                  <button onClick={handleSubmitOrder}>Submit Order</button>
-                </div>
-              }
+              <div className="total">
+                <button onClick={handleSubmitOrder}>Submit Order</button>
+              </div>
           </div>
         </>
       )}
     </div>
   );
-};  
-
+};
 
 export default Products;

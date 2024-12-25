@@ -210,6 +210,7 @@ const Products = () => {
                   />
               ))}
               <div className="total">
+                <h3>Total: {FormatCurrency(calculateTotal())}</h3>
                 <button onClick={handleSubmitOrder}>Submit Order</button>
               </div>
           </div>

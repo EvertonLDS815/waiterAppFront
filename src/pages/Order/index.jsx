@@ -21,7 +21,7 @@ const Products = () => {
   const [loggedOut, setLoggedOut] = useState(false);
   const [quantityInicial, setQuantityInicial] = useState(1);
 
-  useEffect(() => console.log(orderItem), [orderItem])
+  // useEffect(() => console.log(orderItem), [orderItem])
   useEffect(() => {
     const tableId = localStorage.getItem('tableId');
     if (tableId) {
@@ -77,19 +77,19 @@ const Products = () => {
     }
   };
 
-  const handleAddItem = (productId, quantity, image) => {
+  const handleAddItem = (product, quantity) => {
     setSelectedItems((prevItems) => {
-      const existingItem = prevItems.find((item) => item.productId === productId);
+      const existingItem = prevItems.find((item) => item.product._id === product._id);
   
       const updatedItems = existingItem
         ? prevItems.map((item) =>
-            item.productId === productId
+            item.product._id === product._id
               ? { ...item, quantity: item.quantity + quantity }
               : item
           )
-        : [...prevItems, { productId, quantity, image}];
+        : [...prevItems, { product, quantity }]; // Adiciona um ID único
   
-      setOrderItem(updatedItems); // Atualiza o estado de orderItem
+      setOrderItem(updatedItems);
       return updatedItems;
     });
   };
@@ -141,6 +141,10 @@ const Products = () => {
     return <Navigate to="/login" replace />;
   }
 
+  const calculateTotal = () => {
+    return selectedItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
+  };
+
   return (
     <div>
       <Header user={user} onLogout={handleLogout} />
@@ -161,7 +165,7 @@ const Products = () => {
           </form>
         </div>
       ) : (
-        <div>
+        <>
           <div className="container-table">
             <h2>Número da mesa: {tableNumber}</h2>
             <button
@@ -171,45 +175,50 @@ const Products = () => {
               <img title="Deletar Pedido" src={Trash} />
             </button>
           </div>
-          {orderItem.length > 0 &&
-            orderItem.map((item) => (
-              <Cart
-                key={item.productId}
-                image={item.image}
-                inquantity={item.quantity}
-              />
-            ))}
-          <ul className="list">
-            {products.map((product) => (
-              <li key={product._id} className="list-item-products">
-                <h3>{product.name}</h3>
-                <img
-                  className="image-product"
-                  src={`http://localhost:3000${product.imageURL}`}
+          <div>
+            <ul className="list">
+              {products.map((product) => {
+                return (
+                <li key={product._id} className="list-item-products">
+                  <h3>{product.name}</h3>
+                  <img
+                    className="image-product"
+                    src={`http://localhost:3000${product.imageURL}`}
+                  />
+                  <div className="contents">
+                    <h4>{FormatCurrency(product.price)}</h4>
+                    <button
+                      onClick={() =>
+                        handleAddItem(product, quantityInicial)
+                      }
+                    >
+                      <img src={CartIcon} />
+                    </button>
+                  </div>
+                </li>
+              )})}
+            </ul>
+            {orderItem.length > 0 &&
+              orderItem.map((item) => (
+                <Cart
+                  key={item.product._id}
+                  productItem={item.product}
+                  inquantity={item.quantity}
                 />
-                <div className="contents">
-                  <h4>{FormatCurrency(product.price)}</h4>
-                  <button
-                    onClick={() =>
-                      handleAddItem(
-                        product._id,
-                        quantityInicial,
-                        `http://localhost:3000${product.imageURL}`
-                      )
-                    }
-                  >
-                    <img src={CartIcon} />
-                  </button>
+              ))}
+              {/* Div para exibir o total */}
+              {orderItem.length > 0 && 
+                <div className="total">
+                  <h3>Total: {FormatCurrency(calculateTotal())}</h3>
+                  <button onClick={handleSubmitOrder}>Submit Order</button>
                 </div>
-              </li>
-            ))}
-          </ul>
-          <button onClick={handleSubmitOrder}>Submit Order</button>
-        </div>
+              }
+          </div>
+        </>
       )}
     </div>
   );
-}  
+};  
 
 
 export default Products;

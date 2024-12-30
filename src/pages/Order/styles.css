@@ -35,6 +35,9 @@ header button img{
     font-weight: 500;;
     margin: 0.8rem 0.5rem;
 }
+.container-table h2 {
+    font-size: 1.4rem;
+}
 .container-table button {
     margin-left: 10px;
     color: white;
@@ -85,7 +88,7 @@ header button img{
 }
 
 .list-item-products {
-    border: 1px solid #eee;
+    border: 1px solid #ddd;
     padding: 0.5rem;
 }
 
@@ -119,17 +122,33 @@ header button img{
 .cart-item {
     display: flex;
     gap: 0.8rem;
+    align-items: center;
     padding: 0.8rem;
-    margin: 0 1rem;
+    margin: 0 auto;
     border: 1px solid #ddd;
+    max-width: 800px;
 }
 
 .cart-item:nth-child(2n + 1) {
     background: #eee;
 }
-.cart-item img {
+.cart-item > img {
     width: 100px;
     border: 1px solid #ddd;
+}
+.remove-item {
+    border: 2px solid red;
+    padding: 2px 5px;
+    font-size: 0.9rem;
+    margin-left: auto;
+}
+
+.submit-order {
+    background-color: #219421;
+    color: white;
+    padding: 8px;
+    font-size: 1.1rem;
+    border-radius: 0.75rem;
 }
 
 .total {
@@ -143,8 +162,12 @@ header button img{
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
-  
+}
+
+.total h3 {
+    font-size: 1.2rem;
+}
+
 
 @media (max-width: 900px) {
     .list {

@@ -1,6 +1,7 @@
 // App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import history from './utils/redirect';
 
 // Import Components
 import Login from './pages/Login';
@@ -9,7 +10,7 @@ import Order from './pages/Order';
 const App = () => {
   return (
     <Router>
-      <Routes>
+      <Routes history={history}>
         <Route path="/login" element={<PublicRoute component={Login} />} />
         <Route path="/order" element={<PrivateRoute component={Order} />} />
       </Routes>

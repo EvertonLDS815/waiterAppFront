@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../../config';
 import Header from '../../components/Header';
 import './styles.css';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import Input from '../../components/Input';
 import CartIcon from '../../assets/cart.svg';
 import Trash from '../../assets/trash.svg';
@@ -12,13 +12,17 @@ import Cart from '../../components/Cart';
 const Products = () => {
   const [user, setUser] = useState({});
   const [products, setProducts] = useState([]);
-  const [tableName, setTableName] = useState('');
+  const [tableString, setTableString] = useState('');
   const [tableExists, setTableExists] = useState(false);
   const [tableNumber, setTableNumber] = useState(null);
   const [error, setError] = useState('');
   const [selectedItems, setSelectedItems] = useState([]);
   const [orderItem, setOrderItem] = useState([]); // Inicializado como array vazio
   const [loggedOut, setLoggedOut] = useState(false);
+  const [orderData, setOrderData] = useState({});
+
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const tableId = localStorage.getItem('tableId');
@@ -63,37 +67,39 @@ const Products = () => {
     }
 
     try {
-      const tableNumber = parseInt(tableName, 10);
-      const response = await api.post('/table', { number: tableNumber });
+      const tableParseInt = parseInt(tableString, 10);
+      const response = await api.post('/table', { number: tableParseInt });
       const tableId = response.data._id;
       localStorage.setItem('tableId', tableId);
       setTableExists(true);
-      setTableNumber(tableNumber);
+      setTableNumber(tableParseInt);
     } catch (err) {
-      console.error('Failed to create table', err);
-      alert('Failed to create table');
+      setTableString('');
+      console.error('Falha ao criar a mesa!', err);
+      alert('Falha ao criar a mesa!');
     }
   };
 
   const handleAddItem = (product, quantity) => {
     setOrderItem((prevItems) => {
-      const existingItem = prevItems.find((item) => item.product._id === product._id);
-
+      const existingItem = prevItems.find((item) => item.productId._id === product._id);
+  
       const updatedItems = existingItem
         ? prevItems.map((item) =>
-            item.product._id === product._id
+            item.productId._id === product._id
               ? { ...item, quantity: item.quantity + quantity }
               : item
           )
-        : [...prevItems, { product, quantity }];
-
+        : [...prevItems, { productId: product, quantity }];
+  
       return updatedItems;
     });
   };
+  
 
   const handleRemoveItem = (productId) => {
     setOrderItem((prevItems) => {
-      const updatedItems = prevItems.filter((item) => item.product._id !== productId);
+      const updatedItems = prevItems.filter((item) => item.productId._id !== productId);
       return updatedItems;
     });
   };
@@ -104,25 +110,37 @@ const Products = () => {
       alert('Escolha uma mesa!!!');
       return;
     }
-
+  
     if (!user._id) {
       console.error('No user ID found');
       return;
     }
-
+  
     const orderData = {
       tableId,
       userId: user._id,
       items: orderItem,
     };
-
+  
     try {
       await api.post('/order', orderData);
-      setOrderItem([]); // Reseta orderItem
+      setOrderItem([]); // Reseta orderItem após enviar
+      setTableExists(false);
+      setTableNumber(null)
+      setTableString('')
+      setOrderData({})
+      localStorage.removeItem('tableId');
+      return
     } catch (err) {
-      console.error('Failed to create order', err);
+      console.error('Falha ao criar pedido', err.response.status);
+      if (err.response.status === 401) {
+        alert(err.response.data.error)
+        return handleLogout();
+      }
+      alert('Faça pelo menos um pedido!');
     }
   };
+  
 
   const handleClearTable = async () => {
     const tableId = localStorage.getItem('tableId');
@@ -131,7 +149,7 @@ const Products = () => {
     setOrderItem([]); // Limpa o estado de orderItem
     setTableExists(false);
     setTableNumber(null);
-    setTableName('');
+    setTableString('');
   };
 
   const handleLogout = async () => {
@@ -144,7 +162,7 @@ const Products = () => {
   }
 
   const calculateTotal = () => {
-    return orderItem.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
+    return orderItem.reduce((acc, item) => acc + item.productId.price * item.quantity, 0);
   };
 
   return (
@@ -155,12 +173,13 @@ const Products = () => {
           <form onSubmit={handleTableSubmit} className="form-table">
             <h2>Informar a mesa</h2>
             <Input
-              id="tableName"
-              name="tableName"
-              type="text"
+              id="tableString"
+              name="tableString"
+              type="number"
               placeholder="Número da mesa"
-              valueProps={tableName}
-              setState={setTableName}
+              max="500"
+              valueProps={tableString}
+              setState={setTableString}
               required
             />
             <button type="submit">Salvar</button>
@@ -169,10 +188,9 @@ const Products = () => {
       ) : (
         <>
           <div className="container-table">
-            <h2>Número da mesa: {tableNumber}</h2>
+            <h2>Mesa: {tableNumber}</h2>
             <button
               onClick={handleClearTable}
-              style={{ marginLeft: "10px", color: "red" }}
             >
               <img title="Deletar Pedido" src={Trash} />
             </button>
@@ -203,15 +221,15 @@ const Products = () => {
             {orderItem.length > 0 &&
               orderItem.map((item) => (
                   <Cart
-                    key={item.product._id}
-                    productItem={item.product}
+                    key={item.productId._id}
+                    productItem={item.productId}
                     inquantity={item.quantity}
                     onRemoveItem={handleRemoveItem}
                   />
               ))}
               <div className="total">
                 <h3>Total: {FormatCurrency(calculateTotal())}</h3>
-                <button onClick={handleSubmitOrder}>Submit Order</button>
+                <button onClick={handleSubmitOrder} className='submit-order'>Enviar Pedido</button>
               </div>
           </div>
         </>

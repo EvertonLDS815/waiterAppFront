@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { redirectToLogin } from '../utils/redirect';
 
 // Cria a instância do axios com a baseURL
 const token = localStorage.getItem('waiter');
 const api = axios.create({
-  baseURL: 'http://localhost:3000', // Endpoint base da API
+  baseURL: 'http://localhost:3000',
   headers: { Authorization: `Bearer ${token}` },
 });
 
@@ -17,9 +17,7 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error); // Trata possíveis erros
-  }
+  (error) => Promise.reject(error)
 );
 
 // Adiciona um interceptor de resposta para tratar tokens expirados
@@ -29,13 +27,11 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       // Remove o token inválido do localStorage
       localStorage.removeItem('waiter');
-      // Redireciona o usuário para a página de login
-      const navigate = useNavigate();
-      navigate('/login');
+      // Redireciona para a página de login
+      redirectToLogin();
     }
     return Promise.reject(error);
   }
 );
-
 
 export default api;

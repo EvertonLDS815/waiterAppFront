@@ -14,13 +14,12 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post('/login', { email, password });
+      const {data} = await api.post('/login', { email, password });
       
-      console.log(response.data);
-      localStorage.setItem('waiter', response.data.token);
+      localStorage.setItem('waiter', data.token);
       return navigate('/order');
     } catch (err) {
-      console.error(err)
+      console.error(err);
       return setError('Email e/ou senha inválidos!');
     }
   };

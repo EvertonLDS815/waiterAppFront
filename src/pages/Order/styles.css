@@ -14,6 +14,8 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
+    top: 0;
 }
 
 header button {
@@ -33,7 +35,7 @@ header button img{
     justify-content: flex-start;
     gap: 3rem;
     font-weight: 500;;
-    margin: 0.8rem 0.5rem;
+    margin: 5rem 1rem 0;
 }
 .container-table h2 {
     font-size: 1.4rem;
@@ -175,8 +177,9 @@ header button img{
     }
 }
 
-@media (max-width: 430px) {
+@media (max-width: 400px) {
     .container-table {
         gap: 1rem;
+        margin: 7rem 1rem 0;
     }
 }

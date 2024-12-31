@@ -137,7 +137,7 @@ const Products = () => {
         alert(err.response.data.error)
         return handleLogout();
       }
-      alert('Faça pelo menos um pedido!');
+      alert('Peça alguma coisa!');
     }
   };
   

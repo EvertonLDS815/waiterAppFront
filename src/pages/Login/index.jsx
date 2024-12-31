@@ -27,7 +27,7 @@ const Login = () => {
   return (
     <div className='container-login'>
       <form onSubmit={handleSubmit} className='login-form'>
-        <h1>Login</h1>
+        <h1>Waiter App</h1>
         <Input type="email" placeholder="Email" valueProps={email} setState={setEmail}/>
         <Input type="password" placeholder="Senha" valueProps={password} setState={setPassword} />
         {error && <p style={{ color: 'red' }}>{error}</p>}

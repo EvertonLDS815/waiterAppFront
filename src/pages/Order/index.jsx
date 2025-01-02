@@ -132,7 +132,7 @@ const Products = () => {
       localStorage.removeItem('tableId');
       return
     } catch (err) {
-      console.error('Falha ao criar pedido', err.response.status);
+      console.error('Falha ao criar pedido', err);
       if (err.response.status === 401) {
         alert(err.response.data.error)
         return handleLogout();

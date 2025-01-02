@@ -17,7 +17,9 @@ header {
     position: fixed;
     top: 0;
 }
-
+header h2 {
+    font-size: 1.4rem;
+}
 header button {
     background-color: transparent;
     height: 40px;
@@ -178,6 +180,9 @@ header button img{
 }
 
 @media (max-width: 400px) {
+    header h2 {
+        font-size: 1.2rem;
+    }
     .container-table {
         gap: 1rem;
         margin: 7rem 1rem 0;

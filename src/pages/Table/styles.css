@@ -1,0 +1,27 @@
+:root {
+    --red: #c93538;
+    --orange: #f79332;
+}
+
+body {
+    height: 100vh;
+}
+.flex-title {
+    padding-top: 5rem;
+    padding-left: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+}
+.flex-title img {
+    height: 30px;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem 0 3rem;
+    padding-bottom: 2rem;
+}

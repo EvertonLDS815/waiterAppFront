@@ -3,7 +3,7 @@ import Trash from '../../assets/trash.svg';
 
 const Cart = ({ productItem, inquantity, onRemoveItem }) => (
     <div className="cart-item">
-      <img src={`http://localhost:3000${productItem.imageURL}`} alt={productItem.name} />
+      <img src={`http://10.0.0.110:3000${productItem.imageURL}`} alt={productItem.name} />
       <div>
         <h4>{inquantity} x {productItem.name}</h4>
         <strong>{FormatCurrency(productItem.price)}</strong>

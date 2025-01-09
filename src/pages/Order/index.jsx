@@ -8,6 +8,7 @@ import CartIcon from '../../assets/cart.svg';
 import Trash from '../../assets/trash.svg';
 import FormatCurrency from '../../utils/FormatCurrency';
 import Cart from '../../components/Cart';
+import Config from '../../assets/configuracoes-certas.png';
 
 const Products = () => {
   const [user, setUser] = useState({});
@@ -16,10 +17,8 @@ const Products = () => {
   const [tableExists, setTableExists] = useState(false);
   const [tableNumber, setTableNumber] = useState(null);
   const [error, setError] = useState('');
-  const [selectedItems, setSelectedItems] = useState([]);
   const [orderItem, setOrderItem] = useState([]); // Inicializado como array vazio
   const [loggedOut, setLoggedOut] = useState(false);
-  const [orderData, setOrderData] = useState({});
 
   const navigate = useNavigate();
 
@@ -68,6 +67,10 @@ const Products = () => {
 
     try {
       const tableParseInt = parseInt(tableString, 10);
+      if(tableParseInt === 0 || tableParseInt > 20) {
+        setTableString('');
+        return alert('A mesa tem que ser entre 1 e 20!');
+      }
       const response = await api.post('/table', { number: tableParseInt });
       const tableId = response.data._id;
       localStorage.setItem('tableId', tableId);
@@ -128,7 +131,6 @@ const Products = () => {
       setTableExists(false);
       setTableNumber(null)
       setTableString('')
-      setOrderData({})
       localStorage.removeItem('tableId');
       return
     } catch (err) {
@@ -156,6 +158,9 @@ const Products = () => {
     localStorage.removeItem('waiter');
     setLoggedOut(true); // Marca o estado como desconectado
   };
+  const handleRedirectTable = async () => {
+    navigate('/tables');
+  };
 
   if (loggedOut) {
     return <Navigate to="/login" replace />;
@@ -170,6 +175,10 @@ const Products = () => {
       <Header user={user} onLogout={handleLogout} />
       {!tableExists ? (
         <div className="container-form-table">
+          <div className='table-complete'>
+            <span>Mesas Concluídas</span>
+            <img src={Config} onClick={handleRedirectTable} />
+          </div>
           <form onSubmit={handleTableSubmit} className="form-table">
             <h2>Informar a mesa</h2>
             <Input
@@ -177,7 +186,6 @@ const Products = () => {
               name="tableString"
               type="number"
               placeholder="Número da mesa"
-              max="500"
               valueProps={tableString}
               setState={setTableString}
               required
@@ -203,7 +211,7 @@ const Products = () => {
                   <h3>{product.name}</h3>
                   <img
                     className="image-product"
-                    src={`http://localhost:3000${product.imageURL}`}
+                    src={`http://10.0.0.110:3000${product.imageURL}`}
                   />
                   <div className="contents">
                     <h4>{FormatCurrency(product.price)}</h4>

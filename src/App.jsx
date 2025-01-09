@@ -5,6 +5,7 @@ import history from './utils/redirect';
 // Import Components
 import Login from './pages/Login';
 import Order from './pages/Order';
+import Table from './pages/Table';
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
       <Routes history={history}>
         <Route path="/login" element={<PublicRoute component={Login} />} />
         <Route path="/order" element={<PrivateRoute component={Order} />} />
+        <Route path="/tables" element={<PrivateRoute component={Table} />} />
       </Routes>
     </Router>
   );

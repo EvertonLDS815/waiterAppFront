@@ -55,9 +55,25 @@ header button img{
 .container-form-table {
     height: 70vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 1rem;
+}
+.table-complete {
+    width: 400px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 1rem;
+}
+.table-complete span {
+    font-size: 1.1rem;
+}
+.table-complete img {
+    height: 30px;
+    cursor: pointer;
 }
 .form-table {
     width: 400px;
@@ -172,10 +188,107 @@ header button img{
     font-size: 1.2rem;
 }
 
+.content-order {
+    box-shadow: 1px 1px 8px 4px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 0.4rem;
+    width: 500px;
+}
+.label-flex {
+    display: flex;
+    gap: 0.7rem;
+    cursor: pointer;
+    width: 93%;
+}
+.label-flex span {
+    margin-left: auto;
+}
+.label-flex img {
+    height: 19px;
+    margin-top: 5px;
+}
+.opacity-container {
+    display: none;
+}
+.faq-content:nth-child(2n) {
+    background: #eee;
+}
+.trigger-input {
+    display: none;
+}
+.trigger-input:checked + .table-wrapper .opacity-container {
+    display: block;
+    margin-top: 0.5rem;
+}
+
+.faq-content {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #ddd;
+    padding: 5px;
+}
+
+.faq-content img {
+    width: 55px;
+    border: 1px solid #ddd;
+}
+
+.faq-content div h4{
+    font-weight: 500;
+}
+
+.total-table {
+    padding: 0.5rem 0.5rem 0;
+}
+.total-table h3 {
+    font-size: 1.1rem;
+    display: inline-block;
+}
+
+.total-table button {
+    float: right;
+    padding: 0.4rem 0.6rem;
+    margin-top: 0.7rem;
+    font-size: 1rem;
+    background-color: #219421;
+    color: white;
+}
+
 
 @media (max-width: 900px) {
     .list {
         grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    }
+}
+
+@media (max-width: 530px) {
+    header h2 {
+        font-size: 1.2rem;
+    }
+    .content-order {
+        width: 95%;
+    }
+    .label-flex h3 {
+        font-size: 1.1rem;
+    }
+    .total h3 {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .label-flex {
+        gap: 0.4rem;
+    }
+    .label-flex p {
+        font-size: 1rem;
+    }
+    .table-complete {
+        width: 90vw;
+    }
+    .form-table {
+        width: 90vw;
     }
 }
 

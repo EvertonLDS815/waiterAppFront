@@ -59,11 +59,11 @@ O **WaiterApp** é uma solução que facilita o fluxo de trabalho dos garçons, 
 
  ```
 
-<img src="https://i.pinimg.com/736x/65/c7/53/65c753a6aef3b9814649e00bc6bc402a.jpg" alt="Página de Login" width="100%">
+<img src="https://i.pinimg.com/736x/5f/13/42/5f13428d3693adfcbba0bf2bf5c08b7e.jpg" width="100%">
 
-<img src="https://i.pinimg.com/736x/2b/2d/9e/2b2d9e0dc839f7dcaef8df9d42690e26.jpg" width="100%">
+<img src="https://i.pinimg.com/736x/54/8c/14/548c146906c412ccb6e82c68acbb16e4.jpg" width="100%">
 
-<img src="https://i.pinimg.com/736x/ca/6a/48/ca6a48b8b14bc8ce8ea77c8cce40eb66.jpg" alt="Após%20logar%20essa%20página%20aparecerá.%20Ela%20contém%20o%20email%20do%20usuário%20e%20um%20botão%20de%20deslogar%20no%20cabeçalho.%20Temos%20um%20formulário%20para%20digitar%20e%20enviar%20o%20número%20da%20mesa." width="100%">
+<img src="https://i.pinimg.com/736x/0c/3c/18/0c3c187dd27341d6698ac0d24abc4718.jpg" alt="Após%20logar%20essa%20página%20aparecerá.%20Ela%20contém%20o%20email%20do%20usuário%20e%20um%20botão%20de%20deslogar%20no%20cabeçalho.%20Temos%20um%20formulário%20para%20digitar%20e%20enviar%20o%20número%20da%20mesa." width="100%">
 
 ## 🪑 Fluxo da Mesa
 
@@ -77,7 +77,7 @@ O **WaiterApp** é uma solução que facilita o fluxo de trabalho dos garçons, 
 
  ```
 
-<img src="https://i.pinimg.com/736x/d2/c1/ab/d2c1ab31319b575d94e42cf467503738.jpg" alt="Quando%20o%20campo%20é%20digitado%20ele%20envia%20essa%20informação%20para%20o%20Banco%20de%20Dados,%20onde%20teremos%20essa%20informação%20guardada,%20e%20mesmo%20eu%20recarregando%20a%20página%20ela%20ainda%20aparecerá." width="100%">
+<img src="https://i.pinimg.com/736x/cd/7a/5c/cd7a5c54d15e5d2f9652dea0fefa4938.jpg" alt="Quando%20o%20campo%20é%20digitado%20ele%20envia%20essa%20informação%20para%20o%20Banco%20de%20Dados,%20onde%20teremos%20essa%20informação%20guardada,%20e%20mesmo%20eu%20recarregando%20a%20página%20ela%20ainda%20aparecerá." width="100%">
 
 ## ♨️ Fluxo do Pedido
 

@@ -1,6 +1,7 @@
 import api from "../../config";
 import FormatCurrency from "../../utils/FormatCurrency";
 import Trash from '../../assets/trash.svg';
+import CheckTable from '../../assets/check-table.png'
 
 
 const Content = ({order, onFetchTable}) => {
@@ -29,6 +30,9 @@ const Content = ({order, onFetchTable}) => {
                     <h3>Mesa {order.tableId.number}</h3>
                     <p>{order.userId.email}</p>
                     <span>{order.items.length} {order.items.length > 1? 'itens' : 'item'}</span>
+                    {order.status === 'completed' && (
+                      <img src={CheckTable} />
+                    )}
                   </label>
                   <img src={Trash} onClick={() => handleDeleteOrder(order._id)}/>
               </div>
@@ -49,6 +53,14 @@ const Content = ({order, onFetchTable}) => {
                           {order.status === 'pending' && (
                             <button onClick={() => handleCheckOrder(order._id)}>Check</button>
                           )}
+
+                          {order.status === 'completed' && (
+                            <button 
+                                onClick={() => handleCheckOrder(order._id)}
+                                style={{backgroundColor: 'red'}}>
+                              Uncheck
+                            </button>
+                            )}
                         </div>
                   </div>
                 </div>

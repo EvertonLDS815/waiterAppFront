@@ -39,33 +39,24 @@ const Table = () => {
       setOrders((prevState) => {
         // Verifica se o pedido pertence ao usuário autenticado
         if (updatedOrder.userId._id !== user._id) {
-          return prevState; // Se não pertencer, mantém o estado inalterado
+          return prevState; // Retorna o estado inalterado
         }
     
-        if (updatedOrder.status === 'pending') {
-          // Remove o pedido se o status for "pending"
-          return prevState.filter((order) => order._id !== updatedOrder._id);
-        } else if (updatedOrder.status === 'completed') {
-          // Adiciona ou atualiza o pedido se o status for "completed"
-          const orderExists = prevState.some((order) => order._id === updatedOrder._id);
-          if (orderExists) {
-            // Atualiza o pedido existente
-            return prevState.map((order) =>
-              order._id === updatedOrder._id ? updatedOrder : order
-            );
-          } else {
-            // Adiciona um novo pedido
-            return [...prevState, updatedOrder];
-          }
+        // Atualiza ou adiciona o pedido, sem removê-lo
+        const orderExists = prevState.some((order) => order._id === updatedOrder._id);
+        if (orderExists) {
+          // Atualiza o pedido existente
+          return prevState.map((order) =>
+            order._id === updatedOrder._id ? updatedOrder : order
+          );
+        } else {
+          // Adiciona um novo pedido
+          return [...prevState, updatedOrder];
         }
-    
-        return prevState; // Retorna o estado sem mudanças por segurança
       });
-      console.log('Pedidos atualizados:', updatedOrder);
     });
 
     socket.on('order@deleted', (order) => {
-      console.log('Evento recebido:', order);
     
       if (!order || !order._id) {
         console.warn('Pedido inválido recebido:', order);
@@ -76,8 +67,6 @@ const Table = () => {
         const validOrders = prevState.filter((o) => o && o._id); // Remove objetos inválidos
         return validOrders.filter((o) => o._id !== order._id);
       });
-    
-      console.log('Pedido removido com sucesso:', order);
     });
 
   }, [user._id]);

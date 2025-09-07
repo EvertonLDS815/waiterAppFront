@@ -203,7 +203,6 @@ const Products = () => {
               <img title="Deletar Pedido" src={Trash} />
             </button>
           </div>
-          <div>
             <ul className="list">
               {products.map((product) => {
                 return (
@@ -234,12 +233,13 @@ const Products = () => {
                     inquantity={item.quantity}
                     onRemoveItem={handleRemoveItem}
                   />
-              ))}
+              ))
+              
+              }
               <div className="total">
                 <h3>Total: {FormatCurrency(calculateTotal())}</h3>
                 <button onClick={handleSubmitOrder} className='submit-order'>Enviar Pedido</button>
               </div>
-          </div>
         </>
       )}
     </div>

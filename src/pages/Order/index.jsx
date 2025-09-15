@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import api from '../../config';
 import Header from '../../components/Header';
 import './styles.css';
@@ -9,6 +9,7 @@ import Trash from '../../assets/trash.svg';
 import FormatCurrency from '../../utils/FormatCurrency';
 import Cart from '../../components/Cart';
 import Config from '../../assets/configuracoes-certas.png';
+import socketIo from 'socket.io-client';
 
 const Products = () => {
   const [user, setUser] = useState({});
@@ -22,6 +23,32 @@ const Products = () => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const socket = socketIo('http://10.0.0.110:3000', {
+        transports: ['websocket'],  // Certifique-se de que está usando WebSocket
+      });
+  
+      // Escutar o evento 'products@new'
+      socket.on('products@new', (product) => {
+        setProducts(prevState => [...prevState, product]);  // Adiciona o produto à lista
+      });
+      socket.on('products@deleted', (product) => {
+        setProducts(prevState => [...prevState, product]);  // Adiciona o produto à lista
+      });
+
+      socket.on('order@deleted', (product) => {
+    
+      if (!product || !product._id) {
+        console.warn('Pedido inválido recebido:', product);
+        return;
+      }
+    
+      setProducts((prevState) => {
+        const validProducts = prevState.filter((p) => p && p._id); // Remove objetos inválidos
+        return validProducts.filter((p) => p._id !== product._id);
+      });
+    });
+  }, []);
 
   useEffect(() => {
     const tableId = localStorage.getItem('tableId');

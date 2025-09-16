@@ -237,7 +237,7 @@ const Products = () => {
                   <h3>{product.name}</h3>
                   <img
                     className="image-product"
-                    src={`http://10.0.0.110:3000${product.imageURL}`}
+                    src={`${product.imageURL}`}
                   />
                   <div className="contents">
                     <h4>{FormatCurrency(product.price)}</h4>

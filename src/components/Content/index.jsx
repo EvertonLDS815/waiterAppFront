@@ -41,7 +41,7 @@ const Content = ({order, onFetchTable}) => {
                 
                   return (
                     <div key={productId._id} className='faq-content'>
-                        <img src={`http://10.0.0.110:3000${productId.imageURL}`} />
+                        <img src={`${productId.imageURL}`} />
                         <div>
                           <h4>{quantity}x {productId.name}</h4>
                           <span>{FormatCurrency(productId.price)}</span>

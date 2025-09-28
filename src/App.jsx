@@ -14,7 +14,7 @@ const App = () => {
     <Router>
       <Routes history={history}>
         {/* Rota inicial "/" -> redireciona automaticamente */}
-        <Route path="/" element={token ? <Navigate to="/tables" replace /> : <Navigate to="/login" replace />} />
+        <Route path="/" element={token ? <Navigate to="/order" replace /> : <Navigate to="/login" replace />} />
 
         <Route path="/login" element={<PublicRoute component={Login} />} />
         <Route path="/order" element={<PrivateRoute component={Order} />} />

@@ -33,7 +33,9 @@ O **WaiterApp** é uma solução que facilita o fluxo de trabalho dos garçons, 
     
 - Gerenciamento de usuários (alterar papéis entre waiter e admin).
     
+- Criação de Produtos(comidas e bebidas), deletar produtos, adicionar e deletar categorias.
 
+- Criar usuários e deletar usuários
 ---
 
 ## 🔖 Fluxo de Usuário
